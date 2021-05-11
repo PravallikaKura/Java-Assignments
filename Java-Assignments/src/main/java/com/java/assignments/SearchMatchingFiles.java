@@ -20,6 +20,8 @@ class FindFiles {
 	public void printFilesByPath(File[] listOfFiles, String pattern) {
 		if(listOfFiles == null)
 			return;
+		//We will search whether given file has list files or directories if it's a directory we will recursively search in the directory and if it's a file
+		//We will check whether it matches with the patten we want to search
 		for(File file : listOfFiles) {
 			if(file.isDirectory()) {
 				File[] list = file.listFiles();
@@ -43,7 +45,7 @@ public class SearchMatchingFiles {
 		Scanner sc = new Scanner(System.in);
 		String prompt;
 		String pattern = "^[a-zA-Z](.*).txt$";
-		
+		//Program will ask for prompt every time until user gives exit prompt which will break the loop and stop executing the program
 		while(true) {
 			System.out.println("Enter pattern to seach home directory ");
 			prompt= sc.nextLine();
