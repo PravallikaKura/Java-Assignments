@@ -1,6 +1,7 @@
 package com.java.assignments;
 
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -150,24 +151,20 @@ public class Student {
             }
         }
 		
-        System.out.println("Names of all students who have enrolled after 2018" + studentNames);
+        System.out.println("Names of all students who have enrolled after 2018 " + studentNames);
         
         List<String> studentMaleCSEstudents = new ArrayList<String>();
         
         for (Student s : studentList) {
             if (s.getGender() == "Male" && s.getEngDepartment() == "Computer Science")
             	studentMaleCSEstudents.add(s.getName());
-            }
+        }
 	    
-	    
-	    List<String> femaleStudents = new ArrayList<String>();
-	    List<String> maleStudents = new ArrayList<String>();
-	                           
-	    
+	   System.out.println("Male CSE Students " +studentMaleCSEstudents);  
 	    Map<Object, Long> groupingStudents = studentList.stream()
 	    		.collect(Collectors.groupingBy(s -> s.getGender(),Collectors.counting()));
 	    
-	    System.out.println("Group by Gender " +groupingStudents);
+	    System.out.println("Students grouped by Gender " +groupingStudents);
 	    
 	    System.out.println("Average age by gender:");
 	      Map<Object, Double> averageAgeByGender =
@@ -179,5 +176,30 @@ public class Student {
 	                       Collectors.averagingInt(Student::getAge)));
 	               
 	      System.out.println("Group by Gender and Age  " +averageAgeByGender);
-	}
+	      
+	      
+	      DoubleSummaryStatistics highestAchievingStudent = 
+	    		  studentList
+		          .stream()
+		          .mapToDouble(Student::getPerTillDate)
+		          .summaryStatistics();
+	      
+	      System.out.println("Highest Percentage in List : " + highestAchievingStudent.getMax());
+	      System.out.println("Lowest Percentage  in List : " + highestAchievingStudent.getMin());
+	      
+	      
+	      Map<Object, Long> studentsinEachepartment = studentList.stream()
+		    		.collect(Collectors.groupingBy(s -> s.getEngDepartment(),Collectors.counting()));
+	      System.out.println("Students groued by department " +studentsinEachepartment);
+	      
+	      Map<Object, Double> averagePercentageByDepartment =
+	    		  studentList
+	              .stream()
+	              .collect(
+	                   Collectors.groupingBy(
+	                       Student::getEngDepartment,                      
+	                       Collectors.averagingDouble(Student::getPerTillDate)));
+	               
+	      System.out.println("Group by Department and Percentage  " +averagePercentageByDepartment);
+}
 }
